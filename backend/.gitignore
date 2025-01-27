@@ -16,7 +16,7 @@ logs/
 # Windows specific files
 Thumbs.db
 
-# npm package lock files (if you use yarn, ignore yarn.lock instead)
+# npm package lock files
 package-lock.json
 
 # IDEs and editor-specific files
