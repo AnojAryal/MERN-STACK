@@ -7,6 +7,12 @@ import { useAuth } from "../components/AuthContext";
 interface LoginResponse {
   accessToken: string;
   refreshToken: string;
+  user: {
+    id: string;
+    fullname: string;
+    username: string;
+    email: string;
+  };
 }
 
 interface FormData {
@@ -52,13 +58,8 @@ export const useLogin = (): UseLoginReturn => {
       );
 
       if (response.status === 200) {
-        const { accessToken, refreshToken } = response.data;
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-
-        login(accessToken);
-
-        console.log("Navigation to /home triggered.");
+        const { accessToken, refreshToken, user } = response.data;
+        login(accessToken, refreshToken, user);
         navigate("/home");
       } else {
         throw new Error("Unexpected response from the server.");

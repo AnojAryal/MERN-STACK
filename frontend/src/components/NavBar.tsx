@@ -22,7 +22,7 @@ import { useAuth } from "./AuthContext";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const { logout, token, exp } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const cancelRef = useRef<HTMLButtonElement>(null);
 
@@ -37,18 +37,17 @@ const NavBar = () => {
   const handleLogoutClick = () => setIsLogoutOpen(true);
 
   useEffect(() => {
-    if (token && exp * 1000 < Date.now()) {
-      logout();
+    if (!isAuthenticated) {
       navigate("/login");
     }
-  }, [token, exp, logout, navigate]);
+  }, [isAuthenticated, navigate]);
 
   return (
     <>
       <Flex as="nav" p="4" alignItems="center">
         <Spacer />
         <ColorModeSwitch />
-        {token && (
+        {isAuthenticated && (
           <Menu>
             <MenuButton
               as={IconButton}
