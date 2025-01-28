@@ -1,5 +1,8 @@
 require("dotenv").config();
+
 const express = require("express");
+const cors = require("cors");
+
 const ConnectDB = require("./src/config/dbConfig");
 const router = require("../backend/router");
 const logger = require("./src/middleware/logger");
@@ -8,6 +11,7 @@ const logger = require("./src/middleware/logger");
 const app = express();
 
 // Middleware setup
+app.use(cors());
 app.use(express.json());
 app.use(logger);
 
