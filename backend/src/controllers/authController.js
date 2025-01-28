@@ -19,7 +19,7 @@ const handleUserLogin = async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign(
+    const accessToken = jwt.sign(
       { id: user._id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
@@ -35,13 +35,13 @@ const handleUserLogin = async (req, res) => {
     user.refreshToken = refreshToken;
 
     //set token in the Authorization header
-    res.setHeader("Authorization", `Bearer ${token}`);
+    res.setHeader("Authorization", `Bearer ${accessToken}`);
 
     // Respond with the user details in the response body
     res.status(200).json({
       message: "Login successful",
       user: { id: user._id, username: user.username },
-      accessToken: token,
+      accessToken: accessToken,
       refreshToken: refreshToken,
     });
   } catch (error) {

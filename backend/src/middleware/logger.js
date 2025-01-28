@@ -1,6 +1,5 @@
 const logger = (req, res, next) => {
     const start = Date.now(); 
-  
     // Log request details
     console.log(`Incoming request: ${req.method} ${req.path}`);
     if (Object.keys(req.query).length) {
@@ -19,9 +18,13 @@ const logger = (req, res, next) => {
       const duration = Date.now() - start;  // Calculate request duration
       console.log(`Response Status: ${res.statusCode} - Duration: ${duration}ms`);
       originalSend.call(this, body); // Send the response
+      console.log("-------------------------------------------------------------------")
     };
+
+   
   
     next();  // Proceed to the next middleware
+    
   };
   
   module.exports = logger;
