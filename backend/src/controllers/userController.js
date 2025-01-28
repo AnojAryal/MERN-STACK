@@ -1,4 +1,6 @@
 const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
+
 const User = require("../models/userModel");
 
 // Create new user
@@ -25,6 +27,36 @@ const handleUserSignup = async (req, res) => {
   }
 };
 
+//get all users
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).sort({ createdAt: -1 });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Unable to retrieve users" });
+  }
+};
+
+//delete user
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "invalid id" });
+  }
+
+  const user = await User.findOneAndDelete({ _id: id });
+
+  if (!user) {
+    return res.status(404).json({ error: "No such user" });
+  }
+
+  res.status(200).json(user);
+};
+
+
 module.exports = {
   handleUserSignup,
+  getUsers,
+  deleteUser,
 };
