@@ -1,37 +1,28 @@
 require("dotenv").config();
-
 const express = require("express");
-const mongoose = require("mongoose");
-const workoutRoutes = require("./src/routes/workouts");
-const userRoutes = require("./src/routes/user")
-const loginRoutes = require("./src/routes/login");
+const ConnectDB = require("./src/config/dbConfig");
+const router = require("../backend/router");
+const logger = require("./src/middleware/logger");
 
-
-//express app
+// Express app
 const app = express();
 
-//middleware
+// Middleware setup
 app.use(express.json());
+app.use(logger);
+
+// Connect to the database
+ConnectDB();
+
+// App routes
+app.use(router);
 
 app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
+  res.status(404).send("Route not found");
 });
 
-//routes
-app.use("/api/workouts", workoutRoutes);
-app.use("/api/users", userRoutes);
-app.use("/jwt/auth/login", loginRoutes);
+const port = process.env.PORT || 8000;
 
-//connect to db
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => {
-    //listen for requests
-    app.listen(process.env.PORT, () => {
-      console.log("connected to db & listening on port 4000!");
-    });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+app.listen(port, () => {
+  console.log(`Server is running at port ${port}`);
+});
