@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-//schema defines the structure of particular model
 const Schema = mongoose.Schema;
 
 const workoutSchema = new Schema(
@@ -17,6 +16,11 @@ const workoutSchema = new Schema(
       type: Number,
       required: true,
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -24,3 +28,4 @@ const workoutSchema = new Schema(
 );
 
 module.exports = mongoose.model("Workout", workoutSchema);
+

@@ -28,14 +28,22 @@ const getWorkoutById = async (req, res) => {
 const createWorkout = async (req, res) => {
   const { title, load, reps } = req.body;
 
-  //add doc to db
+  // Ensure the user ID is extracted from the request
+  const userId = req.body.user
+
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  // Add workout document to the database
   try {
-    const workout = await Workout.create({ title, load, reps });
+    const workout = await Workout.create({ title, load, reps, user: userId });
     res.status(201).json(workout);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 //delete a workout
 const deleteWorkout = async (req, res) => {
