@@ -14,6 +14,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Text,
 } from "@chakra-ui/react";
 import ColorModeSwitch from "./ColorModeSwitch";
 import { FaSignOutAlt, FaBars } from "react-icons/fa";
@@ -45,6 +46,7 @@ const NavBar = () => {
   return (
     <>
       <Flex as="nav" p="4" alignItems="center">
+      <Text fontWeight="bold">Workout Buddy</Text>
         <Spacer />
         <ColorModeSwitch />
         {isAuthenticated && (
