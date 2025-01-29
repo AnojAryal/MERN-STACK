@@ -45,6 +45,10 @@ const WorkoutsPage = () => {
     onClose: onEditModalClose,
   } = useDisclosure();
 
+  const userData = localStorage.getItem("user");
+  const userInfo = userData ? JSON.parse(userData) : null;
+  const user = userInfo?.username
+
   const bgColor = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
@@ -214,7 +218,7 @@ const WorkoutsPage = () => {
       py={8}
     >
       <GridItem>
-        <Heading mb={4}>Your Workouts</Heading>
+        <Heading mb={4}>Workouts of {user}</Heading>
         <VStack spacing={4} align="stretch">
           {workouts?.length ? (
             workouts.map((workout) => (
